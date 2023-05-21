@@ -1,18 +1,22 @@
-import {describe, expect } from 'vitest'
+import { test, expect } from 'vitest'
 import { Order } from './order'
 
-describe('Create an order', () => {
+test('Create an order', () => {
     //Arrange
     const newOrderOrderedAt = new Date()
     const newOrderPrice = 75.70
     const newOrderCustomer = "Roberto Paiva"
     const newOrderAddress = "Rua Nova n°75"
+    const newOrderOrderedDishes = [3, 9, 12, 11]
+    const newOrderOrderedDrinks = [ 2, 9, 3]
 
     const newOrder = {
         orderedAt: newOrderOrderedAt,
         price: newOrderPrice,
         customer: newOrderCustomer,
         address: newOrderAddress,
+        orderedDishes: newOrderOrderedDishes,
+        orderedDrinks: newOrderOrderedDrinks
     }
 
     //Act
