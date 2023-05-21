@@ -1,6 +1,6 @@
 //Todo caso de uso tem uma ENTRADA e uma SAÍDA
 
-import { Dish } from "../entities/prato/dish"
+import { Dish } from "../entities/dish/dish"
 
 interface CreateDishRequest {
     name: string,
