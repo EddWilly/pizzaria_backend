@@ -1,9 +1,11 @@
+import { Dish } from "../dish/dish"
+
 interface UserProps {
     name: string,
     address: string,
     phone: string,
     email?: string,
-    favoriteDishes: number[]
+    favoriteDishes: Dish[]
 }
 
 export class User {
@@ -25,7 +27,7 @@ export class User {
         return this.props.email
     }
 
-    get getFavoriteDishes (): number[] {
+    get getFavoriteDishes (): Dish[] {
         return this.props.favoriteDishes
     }
     
@@ -45,7 +47,7 @@ export class User {
         this.props.address = email
     }
 
-    set setFavoriteDishes (favoriteDishes: number[]) {
+    set setFavoriteDishes (favoriteDishes: Dish[]) {
         this.props.favoriteDishes = favoriteDishes
     }
 

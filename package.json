@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.1",
+    "date-fns": "^2.30.0",
     "typescript": "^5.0.4",
     "vitest": "^0.31.1"
   }

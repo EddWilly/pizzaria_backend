@@ -1,28 +1,45 @@
+import { Order } from "../order/order"
+
 interface DeliveryProps {
-    deliveredAt: Date,
-    address: string,
+	orderedAt: Date,
+	deliveredAt: Date,
+	order: Order,
 }
 
 export class Delivery {
-    private props: DeliveryProps
+	private props: DeliveryProps
 
-    get getDeliveredAt (): Date {
-        return this.props.deliveredAt
-    }
+	get getOrderedAt (): Date {
+		return this.props.orderedAt
+	}
 
-    get getAddress (): string {
-        return this.props.address
-    }
+	get getDeliveredAt (): Date {
+		return this.props.deliveredAt
+	}
 
-    set setDeliveredAt (deliveredAt: Date) {
-        this.props.deliveredAt = deliveredAt
-    }
+	get getOrder (): Order {
+		return this.props.order
+	}
 
-    set setAddress (deliveryAddress: string) {
-        this.props.address = deliveryAddress
-    }
+	set setOrderedAt (orderedAt: Date) {
+		this.props.orderedAt = orderedAt
+	}
 
-    constructor(props: DeliveryProps) {
-        this.props = props
-    }
+	set setDeliveredAt (deliveredAt: Date) {
+		this.props.deliveredAt = deliveredAt
+	}
+
+	set setAddress (order: Order) {
+		this.props.order = order
+	}
+
+	constructor(props: DeliveryProps) {
+		const { orderedAt, deliveredAt } = props
+
+		if(deliveredAt <= orderedAt) {
+			throw new Error('Invalid deliver date')
+		}
+
+		this.props = props
+	}
 }

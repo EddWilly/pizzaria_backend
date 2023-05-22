@@ -1,7 +1,9 @@
-interface DishProps {
+import { Ingredient } from "../ingredient/ingredient";
+
+export interface DishProps {
     name: string,
     price: number,
-    ingredientsIds: number[],
+    ingredients: Ingredient[],
 }
 
 export class Dish {
@@ -16,8 +18,8 @@ export class Dish {
         return this.props.price
     }
 
-    get getIngredients (): number[] {
-        return this.props.ingredientsIds
+    get getIngredients (): Ingredient[] {
+        return this.props.ingredients
     }
 
     set setName (name: string) {
@@ -28,8 +30,8 @@ export class Dish {
         this.props.price = price;
     }
 
-    set setingredientsIds (ingredients: number[]) {
-        this.props.ingredientsIds = ingredients;
+    set setingredientsIds (ingredients: Ingredient[]) {
+        this.props.ingredients = ingredients;
     }
 
     constructor(props: DishProps) {

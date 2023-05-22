@@ -1,4 +1,4 @@
-interface DrinkProps {
+export interface DrinkProps {
     name: string,
     price: number,
     available: boolean

@@ -1,10 +1,13 @@
+import { Dish } from "../dish/dish"
+import { Drink } from "../drink/drink"
+
 interface OrderProps {
 	orderedAt: Date,
 	price: number,
 	customer: string,
 	address: string,
-	orderedDishes: number[],
-	orderedDrinks: number[]
+	orderedDishes: Dish[],
+	orderedDrinks: Drink[]
 }
 
 export class Order {
@@ -26,11 +29,11 @@ export class Order {
 		return this.props.address
 	}
 
-	get getOrderedDishes (): number[] {
+	get getOrderedDishes (): Dish[] {
 		return this.props.orderedDishes
 	}
 
-	get getOrderedDrinks (): number[] {
+	get getOrderedDrinks (): Drink[] {
 		return this.props.orderedDrinks
 	}
 
@@ -50,11 +53,11 @@ export class Order {
 		this.props.address = address
 	}
 
-	set setOrderedDishes (orderedDishes: number[]) {
+	set setOrderedDishes (orderedDishes: Dish[]) {
 		this.props.orderedDishes = orderedDishes
 	}
 
-	set setOrderedDrinks (orderedDrinks: number[]) {
+	set setOrderedDrinks (orderedDrinks: Drink[]) {
 		this.props.orderedDrinks = orderedDrinks
 	}
 
