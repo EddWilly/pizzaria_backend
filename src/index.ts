@@ -1,7 +1,8 @@
 import fastify from 'fastify'
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 const server = fastify()
+dotenv.config();
 
 interface IQuerystring {
     username: string;
@@ -24,7 +25,8 @@ server.get<{
   })
 
 server.get('/pedidos', async (request, reply) => {
-    return "Pong"
+  console.log(process.env.DATABASE_PORT)
+    return `Pong pong ${process.env.DATABASE_PASSWORD}`
 })
 
 server.listen({ port: 8080 }, (err, address) => {
