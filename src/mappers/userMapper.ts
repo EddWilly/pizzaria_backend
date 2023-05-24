@@ -1,6 +1,7 @@
 import { User, UserProps } from "../entities/user/user";
 import { UserModel, UserModelProps } from "../repositories/models/UserModel";
 import { dataSource } from '../repositories/databaseConfig';
+import { Dish } from "../entities/dish/dish";
 
 export class UserMapper {
 	private users: User[];
@@ -8,8 +9,55 @@ export class UserMapper {
 	constructor() {
 		this.users = [];
 	}
+
+	async MapUserClassToUserEntity(user: User): Promise<UserModel> {
+		const { getName, getAddress, getPhone, getEmail, getFavoriteDishes } = user
+		const favoriteDishesString: string = ""
+		getFavoriteDishes.map((favoriteDish) => {
+			if(typeof(favoriteDish.getId) === 'string') {
+				favoriteDishesString.concat(favoriteDish.getId + ',')
+			}
+		})
+
+		const userModelProps: UserModelProps = {
+			name: getName,
+			address: getAddress,
+			phone: getPhone,
+			email: getEmail,
+			favoriteDishes: favoriteDishesString
+		}
+
+		const mappedUserEntity = new UserModel
+		mappedUserEntity.setAll(userModelProps)
+		
+		return mappedUserEntity
+	}
+
+	async MapUserEntityToUserClass(user: UserModel): Promise<User> {
+		const { id, name, address, phone, email, favoriteDishes } = user
+		const favoriteDishesArray = favoriteDishes.split(',')
+		//Populate favDishArray with every favorite dish retrieved on the map method
+		const favDishArray: Dish[] = []
+		favoriteDishesArray.map((favDish) => {
+			/*
+				Each favDish represents a Dish ID.
+				implement: for each favDish, get it from database
+				and push it to favDishArray
+			*/
+		})
+		const userClassProps: UserProps = {
+			name: name,
+			address: address,
+			phone: phone,
+			email: email,
+			favoriteDishes: favDishArray
+		}
+
+		const newUser = new User(userClassProps)
+		return newUser
+	}
 	
-	async createUser(user: User): Promise<void> {
+	async createUser(user: User): Promise<UserModel | void> {
 		
 		const { getName, getAddress, getPhone, getEmail } = user
 		const userRepository = dataSource.getRepository(UserModel)
@@ -19,41 +67,18 @@ export class UserMapper {
 			address: getAddress,
 			phone: getPhone,
 			email: getEmail,
-			favoriteDishes: []
+			favoriteDishes: ""
 		}
 
 		try {
 			let newUser: UserModel = new UserModel();
-			newUser.name = getName
-			newUser.address = getAddress
-			newUser.phone = getPhone
-			newUser.email = getEmail
+			newUser.setAll(userProps)
 			const savedUser = await userRepository.save(newUser)
-			console.log(savedUser)
+			return savedUser
 		} catch (err) {
 			console.log(err)
 		}
-				
-		
 
-		
-		
-
-		let newUserRegistered: User
-		
-		// try {
-		// 	if(dataSource.isInitialized) {
-		// 		newUserRegistered = await dataSource.manager.save(user)
-		// 	} else {
-		// 		dataSource.initialize().then(async () => {
-		// 			newUserRegistered = await dataSource.manager.save(user)
-		// 		}).catch(error => console.log(error))
-		// 	}
-		// } catch (err) {
-		// 	console.log(err)
-		// }
-		
-		//return (newUserRegistered ? newUserRegistered : null)
 	}
 
 }

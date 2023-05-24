@@ -1,6 +1,7 @@
 import { Ingredient } from "../ingredient/ingredient";
 
 export interface DishProps {
+    id?: string,
     name: string,
     price: number,
     ingredients: Ingredient[],
@@ -9,6 +10,10 @@ export interface DishProps {
 export class Dish {
     
     private props: DishProps
+
+    get getId (): string | undefined {
+        return this.props.id
+    }
 
     get getName (): string {
         return this.props.name
