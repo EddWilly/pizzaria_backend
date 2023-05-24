@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import dotenv from "dotenv"
-import { User } from './models/User'
+import { UserModel } from './models/UserModel'
 
 import {CreateDatabaseAndTables1684811759572 as createDatabase} from './1684811759572-createDatabaseAndTables'
 
@@ -16,10 +16,18 @@ export const dataSource = new DataSource({
 	port: (typeof(portNumber) === 'number' ? portNumber : 3306),
 	username: process.env.DATABASE_USERNAME,
 	password: process.env.DATABASE_PASSWORD,
-	database: "migrations",
+	database: "pizzaria",
 	synchronize: true,
 	logging: false,
-	entities: [User],
+	entities: [UserModel],
 	migrations: [createDatabase],
 	subscribers: []
 })
+
+dataSource.initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization", err)
+    })

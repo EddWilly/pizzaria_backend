@@ -1,6 +1,6 @@
 import { Dish } from "../dish/dish"
 
-interface UserProps {
+export interface UserProps {
     name: string,
     address: string,
     phone: string,
