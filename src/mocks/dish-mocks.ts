@@ -7,16 +7,19 @@ export class DishMocks {
 		
 		const dishes: DishProps[] = [
 			{
+				id: "1",
 				name: "Pizza de Calabresa",
 				price: 30.45,
 				ingredients: ingredientMocker.mockManyIngredients(),
 			},
 			{
+				id: "2",
 				name: "Pizza de Frango com Catupiry",
 				price: 30.45,
 				ingredients: ingredientMocker.mockManyIngredients(),
 			},
 			{
+				id: "3",
 				name: "Pizza 4 queijos",
 				price: 30.45,
 				ingredients: ingredientMocker.mockManyIngredients(),

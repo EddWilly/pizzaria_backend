@@ -4,23 +4,35 @@ import { Dish } from "../entities/dish/dish";
 
 export class UserMapper {
 
+	MapFavoriteDishesArrayToString(favoriteDishes: Dish[]): string {
+		let favoriteDishesString: string
+
+		const favDishes: string[] = favoriteDishes.map((favDish) => {
+			if(typeof(favDish.getId) === 'string') {
+				return favDish.getId
+			} else {
+				return ''
+			}
+		})
+
+		favoriteDishesString = favDishes.toString()
+
+		return favoriteDishesString
+	}
+
 	async MapUserClassToUserEntity(user: User): Promise<UserModel> {
 		const { getName, getAddress, getPhone, getEmail, getFavoriteDishes } = user
-		const favoriteDishesString: string = ""
+		let favoriteDishesString: string = ''
+	
 		if(getFavoriteDishes.length > 0) {
-			getFavoriteDishes.map((favoriteDish) => {
-				if(typeof(favoriteDish.getId) === 'string') {
-					favoriteDishesString.concat(`${favoriteDish.getId},`)
-				}
-			})
+			favoriteDishesString = this.MapFavoriteDishesArrayToString(getFavoriteDishes)
 		}
-
 		const userModelProps: UserModelProps = {
 			name: getName,
 			address: getAddress,
 			phone: getPhone,
 			email: getEmail,
-			favoriteDishes: (favoriteDishesString ? favoriteDishesString : '')
+			favoriteDishes: favoriteDishesString
 		}
 
 		const mappedUserEntity = new UserModel

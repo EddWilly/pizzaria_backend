@@ -31,10 +31,11 @@ export class UserModel {
 	favoriteDishes: string = ""
 
 	setAll(userProps: UserModelProps) {
-		const { name, address, phone, email } = userProps
+		const { name, address, phone, email, favoriteDishes } = userProps
 		this.name = name
 		this.address = address
 		this.phone = phone
 		this.email = email
+		this.favoriteDishes = favoriteDishes
 	}
 }

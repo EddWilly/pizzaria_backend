@@ -2,7 +2,7 @@ import { Dish } from '../entities/dish/dish'
 import { User, UserProps } from '../entities/user/user'
 
 export class UserMocks {
-	mockUser(): User {
+	mockUser(favoriteDishes?: Dish[]): User {
 		const newUserName = "Daniel Stewart"
 		const newUserEmail = "danielstewart@gmail.com"
 		const newUserPhone = "5938582935"
@@ -14,7 +14,7 @@ export class UserMocks {
 			address: newUserAddress,
 			phone: newUserPhone,
 			email: newUserEmail,
-			favoriteDishes: newUserFavoriteDishes
+			favoriteDishes: (favoriteDishes ? favoriteDishes : newUserFavoriteDishes)
 		}
 		
 		const user = new User(newUserProps)

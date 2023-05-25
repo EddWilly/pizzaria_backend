@@ -1,6 +1,5 @@
 import { test, expect } from 'vitest'
 import { User, UserProps } from './user'
-import { DishMocks } from '../../mocks/dish-mocks'
 import { UserMocks } from '../../mocks/user-mocks'
 
 test('Create an user', () => {
