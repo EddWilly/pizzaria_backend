@@ -1,7 +1,7 @@
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import * as dotenv from 'dotenv';
 import { User, UserProps } from './entities/user/user';
-import { UserMapper } from './mappers/userMapper';
+import { UserAgent } from './agents/UserAgent';
 
 const server = fastify()
 dotenv.config();
@@ -40,11 +40,11 @@ server.post('/user', async (
   } 
   //Creates an User object based on the props received
   const user = new User(userRequestProps)
-  //Instantiate the UserManager class
-  const userManager = new UserMapper()
-  /*Use the createUser method from userManager instance, which creates 
+  //Instantiate the UserAgent class
+  const userAgent = new UserAgent()
+  /*Use the createUser method from userAgent instance, which creates 
   a new userModel and saves it in the database*/ 
-  const createdUser = await userManager.createUser(user)
+  const createdUser = await userAgent.createUser(user)
   //Set response status to 200 and send created user as response
   reply.send(createdUser)
   reply.status(200)

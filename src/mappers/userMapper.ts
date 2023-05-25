@@ -1,30 +1,26 @@
 import { User, UserProps } from "../entities/user/user";
 import { UserModel, UserModelProps } from "../repositories/models/UserModel";
-import { dataSource } from '../repositories/databaseConfig';
 import { Dish } from "../entities/dish/dish";
 
 export class UserMapper {
-	private users: User[];
-	
-	constructor() {
-		this.users = [];
-	}
 
 	async MapUserClassToUserEntity(user: User): Promise<UserModel> {
 		const { getName, getAddress, getPhone, getEmail, getFavoriteDishes } = user
 		const favoriteDishesString: string = ""
-		getFavoriteDishes.map((favoriteDish) => {
-			if(typeof(favoriteDish.getId) === 'string') {
-				favoriteDishesString.concat(favoriteDish.getId + ',')
-			}
-		})
+		if(getFavoriteDishes.length > 0) {
+			getFavoriteDishes.map((favoriteDish) => {
+				if(typeof(favoriteDish.getId) === 'string') {
+					favoriteDishesString.concat(`${favoriteDish.getId},`)
+				}
+			})
+		}
 
 		const userModelProps: UserModelProps = {
 			name: getName,
 			address: getAddress,
 			phone: getPhone,
 			email: getEmail,
-			favoriteDishes: favoriteDishesString
+			favoriteDishes: (favoriteDishesString ? favoriteDishesString : '')
 		}
 
 		const mappedUserEntity = new UserModel
@@ -57,28 +53,6 @@ export class UserMapper {
 		return newUser
 	}
 	
-	async createUser(user: User): Promise<UserModel | void> {
-		
-		const { getName, getAddress, getPhone, getEmail } = user
-		const userRepository = dataSource.getRepository(UserModel)
-		
-		const userProps: UserModelProps = {
-			name: getName,
-			address: getAddress,
-			phone: getPhone,
-			email: getEmail,
-			favoriteDishes: ""
-		}
-
-		try {
-			let newUser: UserModel = new UserModel();
-			newUser.setAll(userProps)
-			const savedUser = await userRepository.save(newUser)
-			return savedUser
-		} catch (err) {
-			console.log(err)
-		}
-
-	}
+	
 
 }

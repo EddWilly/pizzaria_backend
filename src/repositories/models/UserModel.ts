@@ -1,4 +1,3 @@
-import { add } from "date-fns"
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 export interface UserModelProps {
@@ -16,19 +15,19 @@ export class UserModel {
 	@PrimaryGeneratedColumn("uuid")
 	id!: number
 
-	@Column()
+	@Column({ type: 'varchar' })
 	name!: string
 
-	@Column()
+	@Column({ type: 'varchar' })
 	address!: string
 
-	@Column()
+	@Column({ type: 'varchar' })
 	phone!: string
 
-	@Column()
+	@Column({ type: 'varchar', nullable: true })
 	email?: string
 
-	@Column()
+	@Column({ type: 'varchar' })
 	favoriteDishes: string = ""
 
 	setAll(userProps: UserModelProps) {
@@ -37,9 +36,5 @@ export class UserModel {
 		this.address = address
 		this.phone = phone
 		this.email = email
-	}
-
-	setFavoriteDishes(favoriteDishes: Array<number>) {
-		this.favoriteDishes
 	}
 }
