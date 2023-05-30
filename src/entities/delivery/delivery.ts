@@ -8,6 +8,7 @@ interface DeliveryProps {
 
 export class Delivery {
 	private props: DeliveryProps
+    children: any
 
 	get getOrderedAt (): Date {
 		return this.props.orderedAt

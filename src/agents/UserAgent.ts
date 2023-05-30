@@ -2,27 +2,52 @@ import { User } from "../entities/user/user";
 import { dataSource } from "../repositories/databaseConfig";
 import { UserModel, UserModelProps } from "../repositories/models/UserModel";
 import { UserMapper } from "../mappers/userMapper"
+import { DataSource } from "typeorm";
 
 /*This class is responsible for interactions with
   the database that are related to User entity */
 export class UserAgent {
 
-    private users: User[];
-	
+	private repository = dataSource.getRepository(UserModel)
+	private mapper: UserMapper
+
 	constructor() {
-		this.users = [];
+		this.mapper = new UserMapper()
 	}
 
-    async createUser(user: User): Promise<UserModel | void> {
-		const userMapper = new UserMapper()
-        const mappedUserEntity: UserModel = await userMapper.MapUserClassToUserEntity(user)
+	async createUser(user: User): Promise<User | void> {
+		const mappedUserEntity: UserModel = await this.mapper.MapUserClassToUserEntity(user)
 		try {
-            const userRepository = dataSource.getRepository(UserModel)
-			const savedUser = await userRepository.save(mappedUserEntity)
-			return savedUser
+			const savedUser = await this.repository.save(mappedUserEntity)
+			const mappedUserClassObject = await this.mapper.MapUserEntityToUserClass(savedUser)
+			return mappedUserClassObject
 		} catch (err) {
 			console.log(err)
 		}
 
+	}
+
+	async getAllUsers(): Promise<User[]> {
+		const allUsersOnDatabase = await this.repository.find()
+		const mappedUserArray: User[] = []
+		try {
+			allUsersOnDatabase.forEach(async userModel => {
+				const mappedUserClassObject = await this.mapper.MapUserEntityToUserClass(userModel)
+				mappedUserArray.push(mappedUserClassObject)
+			});
+			return mappedUserArray
+		} catch (err) {
+			console.log(err)
+		}
+
+		return mappedUserArray
+	}
+
+	async getUser(userId: string): Promise<User | void> {
+		const requestedUser = await this.repository.findOneBy({ id: userId })
+		if(requestedUser){
+			const mappedUserClassObject = await this.mapper.MapUserEntityToUserClass(requestedUser)
+			return mappedUserClassObject
+		}
 	}
 }

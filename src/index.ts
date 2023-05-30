@@ -1,59 +1,55 @@
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import * as dotenv from 'dotenv';
+import { bootstrap } from '@fastify-resty/core'
 import { User, UserProps } from './entities/user/user';
 import { UserAgent } from './agents/UserAgent';
+import UserController from './controllers/UserController';
 
-const server = fastify()
+const server = fastify({ logger: true })
 dotenv.config();
 
-interface IQuerystring {
-    username: string;
-    password: string;
-}
-
-interface IHeaders {
-    'h-Custom': string;
-}
-
-server.get<{
-    Querystring: IQuerystring,
-    Headers: IHeaders
-  }>('/auth', async (request, reply) => {
-    const { username, password } = request.query
-    const customerHeader = request.headers['h-Custom']
-    // do something with request data
-  
-    return `logged in!`
-  })
-  
-server.post('/user', async (
-  request: FastifyRequest<{ Body: { name: string; address: string, phone: string, email?: string } }>, 
-  reply: FastifyReply) => {
-
-  const { name, address, phone, email } = request.body
-  const userRequestProps: UserProps = {
-    name: name,
-    address: address,
-    phone: phone,
-    email: email,
-    favoriteDishes: []
-  } 
-  //Creates an User object based on the props received
-  const user = new User(userRequestProps)
-  //Instantiate the UserAgent class
-  const userAgent = new UserAgent()
-  /*Use the createUser method from userAgent instance, which creates 
-  a new userModel and saves it in the database*/ 
-  const createdUser = await userAgent.createUser(user)
-  //Set response status to 200 and send created user as response
-  reply.send(createdUser)
-  reply.status(200)
+server.register(bootstrap, {
+  controllers: [UserController]
 })
 
-server.listen({ port: 8080 }, (err, address) => {
-    if (err) {
-        console.error(err)
-        process.exit(1)
-      }
-      console.log(`Server listening at ${address}`)
-})
+
+const start = async () => {
+  try {
+    await server.listen({ port: 8080 })
+  } catch (err) {
+    server.log.error(err)
+    process.exit(1)
+  }
+}
+
+start()
+
+// server.listen({ port: 8080 }, (err, address) => {
+  //     if (err) {
+    //         server.log.error(err)
+    //         process.exit(1)
+    //       }
+    //       console.log(`Server listening at ${address}`)
+    
+    
+    interface IQuerystring {
+        username: string;
+        password: string;
+    }
+    
+    interface IHeaders {
+        'h-Custom': string;
+    }
+    
+    server.get<{
+        Querystring: IQuerystring,
+        Headers: IHeaders
+      }>('/auth', async (request, reply) => {
+        const { username, password } = request.query
+        const customerHeader = request.headers['h-Custom']
+        // do something with request data
+      
+        return `logged in!`
+      })
+      
+// })

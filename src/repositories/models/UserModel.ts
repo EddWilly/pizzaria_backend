@@ -13,7 +13,7 @@ export interface UserModelProps {
 export class UserModel {
 
 	@PrimaryGeneratedColumn("uuid")
-	id!: number
+	id!: string
 
 	@Column({ type: 'varchar' })
 	name!: string
@@ -27,7 +27,11 @@ export class UserModel {
 	@Column({ type: 'varchar', nullable: true })
 	email?: string
 
-	@Column({ type: 'varchar' })
+	@Column({
+		type: "varchar",
+		length: 350,
+		nullable: true
+	})
 	favoriteDishes: string = ""
 
 	setAll(userProps: UserModelProps) {

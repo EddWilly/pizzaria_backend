@@ -3,7 +3,6 @@ import { UserMapper } from './userMapper'
 import { it, describe, expect } from 'vitest'
 import { UserMocks } from '../mocks/user-mocks'
 import { UserModel } from '../repositories/models/UserModel'
-import { Ingredient } from '../entities/ingredient/ingredient'
 import { DishMocks } from '../mocks/dish-mocks'
 import { Dish } from '../entities/dish/dish'
 
