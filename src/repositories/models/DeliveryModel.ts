@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 export interface DeliveryModelProps {
     orderedAt: string,
 	deliveredAt: string,
-	orderId: string,
+	orderId: number,
 }
 
 @Entity("delivery")

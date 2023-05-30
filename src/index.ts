@@ -1,8 +1,6 @@
-import fastify, { FastifyReply, FastifyRequest } from 'fastify'
+import fastify from 'fastify'
 import * as dotenv from 'dotenv';
 import { bootstrap } from '@fastify-resty/core'
-import { User, UserProps } from './entities/user/user';
-import { UserAgent } from './agents/UserAgent';
 import UserController from './controllers/UserController';
 
 const server = fastify({ logger: true })

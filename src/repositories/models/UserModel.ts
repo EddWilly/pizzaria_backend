@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 export interface UserModelProps {
-	
 	name: string,
 	address: string,
 	phone: string,
